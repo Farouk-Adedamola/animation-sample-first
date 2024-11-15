@@ -22,11 +22,24 @@ const Home = () => {
     offset: ["start start", "end end"]
   });
 
-   const workTextSize = useTransform(
+  // Adjust scale to start from 1.1
+  // const workTextScale = useTransform(
+  //   workProgress,
+  //   [0, 0.3, 1],
+  //   [1.2, 1.1, 1]
+  // );
+  
+  const workTextScale = useTransform(
   workProgress,
-  [0, 0.3, 1], // Now the scale happens in first 30% of scroll
-  ["20vw", "10vw", "10vw"]
+  [0, 0.3, 1], // Adjusted range for faster animation
+  [1.2, 1, 1]   // Same scale values
 );
+
+  const workTextColor = useTransform(
+    workProgress,
+    [0, 0.3, 1],
+    ['#000000', '#ffffff', '#ffffff']
+  );
 
   // Adjusted timing values for closer image transitions
   const lagosOpacity = useTransform(sequenceProgress, [0, 0.15, 0.3], [1, 1, 0]);
@@ -78,22 +91,25 @@ const Home = () => {
                   priority
                 />
               </div>
-
-              <motion.h2 
-                className="relative font-bold leading-none mix-blend-difference text-white"
-                style={{
-                  filter: "blur(0px)",
-                  opacity: 1,
-                  zIndex: 7,
-                  fontSize: workTextSize
-                }}
-              >
-                WORK
-              </motion.h2>
+              <motion.div style={{ zIndex: 100 }}>
+                <motion.h2 
+                  className="relative font-normal leading-none mix-blend-difference !text-black"
+                  style={{
+                    filter: "blur(0px)",
+                    opacity: 1,
+                    zIndex: 100,
+                    scale: workTextScale,
+                    fontSize: "20rem", 
+                    color: workTextColor
+                  }}
+                >
+                  WORK
+                </motion.h2>
+              </motion.div>
             </div>
           </div>
 
-          <div ref={blackSectionRef} className="relative bg-black min-h-[200vh] z-[4]">
+          <div ref={blackSectionRef} className="relative bg-black min-h-[200vh] z-[10]">
             <div className="sticky top-0 h-screen w-full overflow-hidden" style={{ perspective: "1000px" }}>
               {/* Fixed Location Text Overlays */}
               <div className="absolute inset-0 flex items-center justify-center z-50">
@@ -118,78 +134,79 @@ const Home = () => {
               </div>
               
               {/* Image Transitions */}
-              <motion.div 
-                className="absolute bottom-0 w-full h-full flex items-end justify-center"
-                style={{ 
-                  y: firstImageTransform.y,
-                  opacity: firstImageTransform.opacity,
-                  transformOrigin: "center center",
-                }}
-              >
-                <div className="relative w-[30vw] h-[60vh] rounded-lg overflow-hidden">
-                  <Image 
-                    src={logo}
-                    alt="Project 1"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              </motion.div>
+              <div className='flex flex-col gap-[25vh]'>
 
-              <motion.div 
-                className="absolute w-full h-full flex items-center justify-center"
-                style={{ 
-                  y: secondImageTransform.y,
-                  opacity: secondImageTransform.opacity,
-                  transformOrigin: "center center",
-                }}
-              >
-                <div className="relative w-[30vw] h-[60vh] rounded-lg overflow-hidden">
-                  <Image 
-                    src={profile}
-                    alt="Project 2"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              </motion.div>
+                <motion.div 
+                  className="absolute bottom-0 w-full h-full flex items-end justify-center"
+                  style={{ 
+                    y: firstImageTransform.y,
+                    opacity: firstImageTransform.opacity,
+                    transformOrigin: "center center",
+                  }}
+                >
+                  <div className="relative w-[30vw] h-[60vh] rounded-lg overflow-hidden">
+                    <Image 
+                      src={logo}
+                      alt="Project 1"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                </motion.div>
 
-              <motion.div 
-                className="absolute w-full h-full flex items-center justify-center"
-                style={{ 
-                  y: thirdImageTransform.y,
-                  opacity: thirdImageTransform.opacity,
-                  transformOrigin: "center center",
-                }}
-              >
-                <div className="relative w-[30vw] h-[60vh] rounded-lg overflow-hidden">
-                  <Image 
-                    src={logo}
-                    alt="Project 3"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              </motion.div>
+                <motion.div 
+                  className="absolute w-full h-full flex items-center justify-center"
+                  style={{ 
+                    y: secondImageTransform.y,
+                    opacity: secondImageTransform.opacity,
+                    transformOrigin: "center center",
+                  }}
+                >
+                  <div className="relative w-[30vw] h-[60vh] rounded-lg overflow-hidden">
+                    <Image 
+                      src={profile}
+                      alt="Project 2"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                </motion.div>
+
+                <motion.div 
+                  className="absolute w-full h-full flex items-center justify-center"
+                  style={{ 
+                    y: thirdImageTransform.y,
+                    opacity: thirdImageTransform.opacity,
+                    transformOrigin: "center center",
+                  }}
+                >
+                  <div className="relative w-[30vw] h-[60vh] rounded-lg overflow-hidden">
+                    <Image 
+                      src={logo}
+                      alt="Project 3"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                </motion.div>
+              </div>
             </div>
           </div>
           <section className="relative bg-slate-200 top-0 h-screen w-full">
-
-          <h1 className="text-4xl font-bold uppercase">
-          A front end developer who loves design
-        </h1>
-        <div className="relative">
-          <Image 
-            src={logo} 
-            alt="Profile image" 
-            width={800} 
-            height={800} 
-            className="rounded-full"
-            priority 
-          />
+            <h1 className="text-4xl font-bold uppercase">
+              A front end developer who loves design
+            </h1>
+            <div className="relative">
+              <Image 
+                src={logo} 
+                alt="Profile image" 
+                width={800} 
+                height={800} 
+                className="rounded-full"
+                priority 
+              />
             </div>
           </section>
-            
         </section>
       </main>
     </Smoothscroll>
@@ -197,4 +214,5 @@ const Home = () => {
 };
 
 export default Home;
+
 
